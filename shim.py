@@ -95,8 +95,7 @@ def is_steam_open(path):
     while not aborting:
         with open(tmp) as f:
             ret = f.read().strip()
-            if ret != 'not ready':
-                assert(ret in ['0', '1'])
+            if ret in ['0', '1']:
                 return ret == '0'
 
             time.sleep(1)

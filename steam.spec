@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -46,7 +46,8 @@ cp -p %SOURCE1 %SOURCE2 .
 %install
 install -Dpm0755 %SOURCE0 %{buildroot}%{_bindir}/steam
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %SOURCE3
-install -Dpm0644 -t %{buildroot}%{_datadir}/icons/hicolor/scalable/ %SOURCE4
+install -Dpm0644 -t %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/ \
+  %SOURCE4
 install -Dpm0644 -t %{buildroot}%{_metainfodir}/ %SOURCE5
 
 %check
@@ -58,10 +59,13 @@ appstream-util validate-relax --nonet \
 %doc README.md
 %{_bindir}/steam
 %{_datadir}/applications/steam.desktop
-%{_datadir}/icons/hicolor/scalable/steam.svg
+%{_datadir}/icons/hicolor/scalable/apps/steam.svg
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Sun Sep 29 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 0-3
+- Install the icon in the right place
+
 * Thu Sep 26 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 0-2
 - Add desktop launcher, icon and metadata
 

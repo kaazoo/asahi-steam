@@ -77,10 +77,10 @@ def download(url, data_dir):
     # This needs to be last in case we got interrupted.
     open(f'{data_dir}/version', 'w').write(URL)
 
-def krun(cmd):
-    return pexpect.spawn("krun", ["--"] + cmd)
+def muvm(cmd):
+    return pexpect.spawn("muvm", ["--"] + cmd)
 
-# Kludge to check if the window is open. Without krun-interactive, this krun
+# Kludge to check if the window is open. Without muvm-interactive, this muvm
 # call is one-shot so we poll a file to grab the output. Fortunately, it
 # doesn't really matter if we're late, as long as we eventually notice that
 # Steam is open.
@@ -89,7 +89,7 @@ def is_steam_open(path):
     with open(tmp, 'w') as f:
         f.write("not ready")
 
-    p = krun(["bash", "-c", f'xwininfo -tree -root|grep \'Steam Big\'; echo $? >{tmp}'])
+    p = muvm(["bash", "-c", f'xwininfo -tree -root|grep \'Steam Big\'; echo $? >{tmp}'])
     p.expect(pexpect.EOF)
 
     while not aborting:
@@ -122,7 +122,7 @@ def launch_steam(path):
 
     # Launch steam
     steam_arg_string = ' '.join(STEAM_ARGS)
-    steam = krun(["FEXBash", "-c", f'{path}/steam-launcher/bin_steam.sh {steam_arg_string}'])
+    steam = muvm(["FEXBash", "-c", f'{path}/steam-launcher/bin_steam.sh {steam_arg_string}'])
     while True:
         if not steam.isalive():
             aborting = True

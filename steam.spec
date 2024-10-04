@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -19,9 +19,11 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 
 Requires:       bash
+Requires:       dbus-x11
 Requires:       fex-emu
 Requires:       grep
 Requires:       hicolor-icon-theme
+Requires:       lsb_release
 Requires:       muvm
 Requires:       python3
 Requires:       xwininfo
@@ -63,6 +65,9 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Fri Oct 4 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 0-5
+- Add missing dependencies
+
 * Tue Oct 1 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-4
 - Rename krun to muvm
 

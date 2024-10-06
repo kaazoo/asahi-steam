@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -65,6 +65,9 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Sun Oct 6 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-6
+- Fix obnoxious font size
+
 * Fri Oct 4 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 0-5
 - Add missing dependencies
 

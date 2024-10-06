@@ -176,7 +176,7 @@ def splash(path):
     ticks = 0
     msg = QLabel(label_for_ticks(state, ticks), parent=window)
     font = msg.font()
-    font.setPointSize(120)
+    font.setPointSize(60)
     msg.setFont(font)
     msg.setStyleSheet("font-family: Lato")
     msg.setAlignment(Qt.AlignmentFlag.AlignCenter)

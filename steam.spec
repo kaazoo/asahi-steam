@@ -27,6 +27,8 @@ Requires:       lsb_release
 Requires:       muvm
 Requires:       python3
 Requires:       xwininfo
+Requires:       mesa-fex-emu-overlay-i386
+Requires:       mesa-fex-emu-overlay-x86_64
 
 Requires:       python3dist(pyqt6)
 Requires:       python3dist(pexpect)
@@ -67,6 +69,7 @@ appstream-util validate-relax --nonet \
 %changelog
 * Sun Oct 6 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-6
 - Fix obnoxious font size
+- Pull in Mesa overlay explicitly
 
 * Fri Oct 4 2024 Davide Cavalca <dcavalca@fedoraproject.org> - 0-5
 - Add missing dependencies

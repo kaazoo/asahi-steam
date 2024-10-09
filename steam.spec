@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -68,6 +68,9 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Wed Oct 09 2024 Janne Grunau <j@jannau.net> - 0-8
+- hidpipe: Fail gracefully if hidpipe is not running
+
 * Wed Oct 9 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-7
 - Hack to fix gamepads
 

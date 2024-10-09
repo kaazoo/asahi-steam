@@ -119,7 +119,10 @@ def warm_gamepad():
 
     with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
         path = BaseDirectory.get_runtime_dir() + '/hidpipe'
-        sock.connect(path)
+        try:
+            sock.connect(path)
+        except FileNotFoundError:
+            return
         time.sleep(2)
         sock.close()
 

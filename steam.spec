@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -30,6 +30,7 @@ Requires:       python3
 Requires:       xwininfo
 Requires:       mesa-fex-emu-overlay-i386
 Requires:       mesa-fex-emu-overlay-x86_64
+Requires:       virglrenderer(asahi)
 
 Requires:       python3dist(pyqt6)
 Requires:       python3dist(pexpect)
@@ -68,7 +69,10 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
-* Wed Oct 10 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-9
+* Wed Oct 09 2024 Janne Grunau <janne-fdr@jannau.net> - 0-12
+- Require virglrenderer(asahi) to avoid incompatible packages
+
+* Wed Oct 09 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-9
 - Start hidpipe-server manually
 
 * Wed Oct 09 2024 Janne Grunau <j@jannau.net> - 0-8

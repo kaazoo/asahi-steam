@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -25,6 +25,7 @@ Requires:       grep
 Requires:       hicolor-icon-theme
 Requires:       lsb_release
 Requires:       muvm
+Requires:       hidpipe
 Requires:       python3
 Requires:       xwininfo
 Requires:       mesa-fex-emu-overlay-i386
@@ -67,6 +68,9 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Wed Oct 9 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-7
+- Hack to fix gamepads
+
 * Sun Oct 6 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-6
 - Fix obnoxious font size
 - Pull in Mesa overlay explicitly

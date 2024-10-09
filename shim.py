@@ -112,6 +112,17 @@ def watch_steam(path):
 
 steam = None
 
+# Obnoxious hack to workaround hidpipe race condition
+# XXX: FIXME
+def warm_gamepad():
+    import socket
+
+    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
+        path = BaseDirectory.get_runtime_dir() + '/hidpipe'
+        sock.connect(path)
+        time.sleep(2)
+        sock.close()
+
 def launch_steam(path):
     global steam
     global aborting
@@ -119,6 +130,8 @@ def launch_steam(path):
     # Update the steam launcher
     if not is_latest_installed(path):
         download(URL, path)
+
+    warm_gamepad()
 
     # Launch steam
     steam_arg_string = ' '.join(STEAM_ARGS)

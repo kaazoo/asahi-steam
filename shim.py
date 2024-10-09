@@ -112,19 +112,16 @@ def watch_steam(path):
 
 steam = None
 
-# Obnoxious hack to workaround hidpipe race condition
-# XXX: FIXME
-def warm_gamepad():
-    import socket
-
-    with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as sock:
-        path = BaseDirectory.get_runtime_dir() + '/hidpipe'
-        try:
-            sock.connect(path)
-        except FileNotFoundError:
-            return
-        time.sleep(2)
-        sock.close()
+# Start hidpipe-server and give it long enough to warm up. This is a bit of a
+# hack. TODO: We'll move this into muvm
+def start_hidpipe():
+    import subprocess
+    try:
+        hidpipe = subprocess.Popen(["hidpipe-server"])
+        time.sleep(1)
+        return hidpipe
+    except OSError:
+        return None
 
 def launch_steam(path):
     global steam
@@ -134,7 +131,7 @@ def launch_steam(path):
     if not is_latest_installed(path):
         download(URL, path)
 
-    warm_gamepad()
+    hidpipe = start_hidpipe()
 
     # Launch steam
     steam_arg_string = ' '.join(STEAM_ARGS)
@@ -158,6 +155,9 @@ def launch_steam(path):
             sys.stdout.write(steam.readline().decode())
         except pexpect.exceptions.TIMEOUT:
             pass
+
+    if hidpipe is not None:
+        hidpipe.kill()
 
 # Here is where we learn Alyssa doesn't know how to write GUIs
 def splash(path):

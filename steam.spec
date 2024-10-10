@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -69,7 +69,10 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
-* Wed Oct 09 2024 Janne Grunau <janne-fdr@jannau.net> - 0-12
+* Thu Oct 10 2024 Janne Grunau <janne-fdr@jannau.net> - 0-11
+- shim: Prevent running as root
+
+* Wed Oct 09 2024 Janne Grunau <janne-fdr@jannau.net> - 0-10
 - Require virglrenderer(asahi) to avoid incompatible packages
 
 * Wed Oct 09 2024 Alyssa Rosenzweig <alyssa@rosenzweig.io> - 0-9

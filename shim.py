@@ -17,6 +17,10 @@ MANIFEST = [
     'steam-launcher/bootstraplinux_ubuntu12_32.tar.xz',
 ]
 
+# prevent user from running as root
+if os.geteuid() == 0:
+    sys.exit(f"Do not run `{sys.argv[0]}` as root")
+
 # These flags workaround sommelier bugs around both background transparency and
 # input.
 STEAM_ARGS = ["-cef-force-occlusion", "-cef-force-opaque-backgrounds", "-gamepadui"]

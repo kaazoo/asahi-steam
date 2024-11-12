@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -31,6 +31,7 @@ Requires:       xwininfo
 Requires:       mesa-fex-emu-overlay-i386
 Requires:       mesa-fex-emu-overlay-x86_64
 Requires:       virglrenderer(asahi)
+Requires:       zenity
 
 Requires:       python3dist(pyqt6)
 Requires:       python3dist(pexpect)
@@ -69,6 +70,9 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Tue Nov 12 2024 Asahi Lina <lina@asahilina.net> - 0-12
+- Depend on zenity (which Steam uses)
+
 * Thu Oct 10 2024 Janne Grunau <janne-fdr@jannau.net> - 0-11
 - shim: Prevent running as root
 

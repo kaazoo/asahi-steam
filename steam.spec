@@ -1,6 +1,6 @@
 Name:           steam
 Version:        0
-Release:        12%{?dist}
+Release:        13%{?dist}
 Summary:        Steam wrapper for Fedora Asahi Remix
 
 License:        MIT
@@ -25,7 +25,7 @@ Requires:       grep
 Requires:       hicolor-icon-theme
 Requires:       lsb_release
 Requires:       muvm
-Requires:       hidpipe
+Requires:       (hidpipe if muvm < 0.1.4)
 Requires:       python3
 Requires:       xwininfo
 Requires:       mesa-fex-emu-overlay-i386
@@ -70,6 +70,11 @@ appstream-util validate-relax --nonet \
 %{_metainfodir}/io.pagure.fedora_asahi.steam.metainfo.xml
 
 %changelog
+* Wed Dec 04 2024 Asahi Lina <lina@asahilina.net> - 0-13
+- Start up in non-big-picture mode if muvm is new enough
+- Drop CEF workarounds if muvm is new enough
+- Fix bug with the launcher window remaining up after Steam
+
 * Tue Nov 12 2024 Asahi Lina <lina@asahilina.net> - 0-12
 - Depend on zenity (which Steam uses)
 

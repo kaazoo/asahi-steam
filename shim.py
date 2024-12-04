@@ -6,6 +6,7 @@ from xdg import BaseDirectory
 import sys
 import os
 import pexpect
+import subprocess
 import time
 
 LAUNCHER_NAME = 'fex-steam'
@@ -17,13 +18,19 @@ MANIFEST = [
     'steam-launcher/bootstraplinux_ubuntu12_32.tar.xz',
 ]
 
+# Drop this for next release
+MUVM_IS_NEW = os.path.exists("/usr/bin/muvm-hidpipe")
+
 # prevent user from running as root
 if os.geteuid() == 0:
     sys.exit(f"Do not run `{sys.argv[0]}` as root")
 
-# These flags workaround sommelier bugs around both background transparency and
-# input.
-STEAM_ARGS = ["-cef-force-occlusion", "-cef-force-opaque-backgrounds", "-gamepadui"]
+if MUVM_IS_NEW:
+    STEAM_ARGS = [] # x11bridge does not need any of this
+else:
+    # These flags workaround sommelier bugs around both background transparency and
+    # input.
+    STEAM_ARGS = ["-cef-force-occlusion", "-cef-force-opaque-backgrounds", "-gamepadui"]
 
 # Append user provided args
 provided_args = sys.argv[1:]
@@ -93,6 +100,9 @@ def is_steam_open(path):
     with open(tmp, 'w') as f:
         f.write("not ready")
 
+    if MUVM_IS_NEW:
+        return subprocess.run('xwininfo -tree -root|grep \'"Steam":.*steamwebhelper\'', shell=True).returncode == 0
+
     p = muvm(["bash", "-c", f'xwininfo -tree -root|grep \'Steam Big\'; echo $? >{tmp}'])
     p.expect(pexpect.EOF)
 
@@ -113,6 +123,7 @@ def watch_steam(path):
     global aborting
     while not steam_is_ready and not aborting:
         steam_is_ready = is_steam_open(path)
+        time.sleep(0.1)
 
 steam = None
 
@@ -135,7 +146,10 @@ def launch_steam(path):
     if not is_latest_installed(path):
         download(URL, path)
 
-    hidpipe = start_hidpipe()
+    if MUVM_IS_NEW:
+        hidpipe = None
+    else:
+        hidpipe = start_hidpipe()
 
     # Launch steam
     steam_arg_string = ' '.join(STEAM_ARGS)
@@ -248,24 +262,25 @@ def splash(path):
             print("Steam is up - hiding the launcher")
             window.hide()
             timer.timeout.disconnect()
-            sys.exit(0)
+            app.quit()
 
         exiting = steam_is_ready
 
     def abort():
+        nonlocal exiting
         global aborting
+        if exiting:
+            return
         # If Steam is not ready, this is an early-exit.
         # If Steam is ready, this is just Qt tidying up after we closed the window.
         # We can sys.exit, Steam is in a helper thread.
         aborting = not steam_is_ready
         print(f"Qt says we're gone, aborting={aborting}")
-        sys.exit(0)
 
     app.aboutToQuit.connect(abort)
     timer.timeout.connect(update)
     timer.start(1000)
     app.exec()
-    print(f"We're dead, Jim.")
 
 # Ok. Time to kick everything off.
 # Grab our data directory, xdg compliant

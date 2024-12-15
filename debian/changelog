@@ -1,0 +1,13 @@
+steam (0.13-1asahi1.24.10) oracular; urgency=medium
+
+  * Build for oracular
+  * Based on version 0-13
+
+ -- Andreas Schröder <andreas@kernelpanik.net>  Mon, 9 Dec 2024 23:37:00 +0100
+
+steam (0.13-1asahi1.24.04) noble; urgency=medium
+
+  * Build for noble
+  * Based on version 0-13
+
+ -- Andreas Schröder <andreas@kernelpanik.net>  Mon, 9 Dec 2024 22:17:00 +0100

@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: steam
+Source: https://pagure.io/fedora-asahi/steam
+
+Files: *
+Copyright: Davide Cavalca
+License: MIT
+

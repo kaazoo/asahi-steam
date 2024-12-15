@@ -1,0 +1,17 @@
+#!/usr/bin/make -f
+# debian/rules for the Debian muvm package
+# Copyright © 2024 Andreas Schröder <andreas@kernelpanik.net>
+
+# Uncomment this to turn on verbose mode.
+export DH_VERBOSE=1
+
+# copy files to expected places
+override_dh_install:
+	install -Dpm0755 shim.py debian/steam/usr/bin/steam
+	desktop-file-install --dir=debian/steam/usr/share/applications steam.desktop
+	install -Dpm0644 -t debian/steam/usr/share/icons/hicolor/scalable/apps/ steam.svg
+	install -Dpm0644 -t debian/steam/usr/share/metainfo/ io.pagure.fedora_asahi.steam.metainfo.xml
+	dh_install -a
+
+%:
+	dh $@

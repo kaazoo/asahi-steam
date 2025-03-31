@@ -18,19 +18,12 @@ MANIFEST = [
     'steam-launcher/bootstraplinux_ubuntu12_32.tar.xz',
 ]
 
-# Drop this for next release
-MUVM_IS_NEW = os.path.exists("/usr/bin/muvm-hidpipe")
-
 # prevent user from running as root
 if os.geteuid() == 0:
     sys.exit(f"Do not run `{sys.argv[0]}` as root")
 
-if MUVM_IS_NEW:
-    STEAM_ARGS = [] # x11bridge does not need any of this
-else:
-    # These flags workaround sommelier bugs around both background transparency and
-    # input.
-    STEAM_ARGS = ["-cef-force-occlusion", "-cef-force-opaque-backgrounds", "-gamepadui"]
+# Performance fix for Big Picture mode
+STEAM_ARGS = ["-cef-force-occlusion"]
 
 # Append user provided args
 provided_args = sys.argv[1:]
@@ -100,20 +93,7 @@ def is_steam_open(path):
     with open(tmp, 'w') as f:
         f.write("not ready")
 
-    if MUVM_IS_NEW:
-        return subprocess.run('xwininfo -tree -root|grep \'"Steam":.*steamwebhelper\'', shell=True).returncode == 0
-
-    p = muvm(["bash", "-c", f'xwininfo -tree -root|grep \'Steam Big\'; echo $? >{tmp}'])
-    p.expect(pexpect.EOF)
-
-    while not aborting:
-        with open(tmp) as f:
-            ret = f.read().strip()
-            if ret in ['0', '1']:
-                return ret == '0'
-
-            time.sleep(1)
-
+    return subprocess.run('xwininfo -tree -root|grep -E \'Steam Big|"Steam":.*steamwebhelper\'', shell=True).returncode == 0
 
 aborting = False
 
@@ -127,17 +107,6 @@ def watch_steam(path):
 
 steam = None
 
-# Start hidpipe-server and give it long enough to warm up. This is a bit of a
-# hack. TODO: We'll move this into muvm
-def start_hidpipe():
-    import subprocess
-    try:
-        hidpipe = subprocess.Popen(["hidpipe-server"])
-        time.sleep(1)
-        return hidpipe
-    except OSError:
-        return None
-
 def launch_steam(path):
     global steam
     global aborting
@@ -145,11 +114,6 @@ def launch_steam(path):
     # Update the steam launcher
     if not is_latest_installed(path):
         download(URL, path)
-
-    if MUVM_IS_NEW:
-        hidpipe = None
-    else:
-        hidpipe = start_hidpipe()
 
     # Launch steam
     steam_arg_string = ' '.join(STEAM_ARGS)
@@ -173,9 +137,6 @@ def launch_steam(path):
             sys.stdout.write(steam.readline().decode())
         except pexpect.exceptions.TIMEOUT:
             pass
-
-    if hidpipe is not None:
-        hidpipe.kill()
 
 # Here is where we learn Alyssa doesn't know how to write GUIs
 def splash(path):

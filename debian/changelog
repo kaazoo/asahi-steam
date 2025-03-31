@@ -1,3 +1,17 @@
+steam (0.13-2asahi1.24.10) oracular; urgency=medium
+
+  * Build for oracular
+  * Update shim.py from 0.13
+
+ -- Andreas Schröder <andreas@kernelpanik.net>  Mon, 31 Mar 2025 00:46:00 +0200
+
+steam (0.13-2asahi1.24.04) noble; urgency=medium
+
+  * Build for noble
+  * Update shim.py from 0.13
+
+ -- Andreas Schröder <andreas@kernelpanik.net>  Mon, 31 Mar 2025 00:38:00 +0200
+
 steam (0.13-1asahi1.24.10) oracular; urgency=medium
 
   * Build for oracular

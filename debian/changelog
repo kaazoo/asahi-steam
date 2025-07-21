@@ -1,3 +1,10 @@
+steam (0.13-2asahi1.25.04) plucky; urgency=medium
+
+  * Build for plucky
+  * Update shim.py from 0.13
+
+ -- Andreas Schröder <andreas@kernelpanik.net>  Mon, 21 Jul 2025 09:46:00 +0200
+
 steam (0.13-2asahi1.24.10) oracular; urgency=medium
 
   * Build for oracular
